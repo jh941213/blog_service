@@ -80,7 +80,7 @@ def crawl_url(url):
             return str(e)
     return "URL이 입력되지 않았습니다."
 
-st.header("WIZnet ChatGPT 글쓰기 도우미")
+st.header("Blog Assistant")
 buttons = ["SEO 최적화 블로그 글 작성하기",
              "문어체로 작성하기",
              "그룹웨어에 작성할 글 요약하기",

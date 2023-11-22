@@ -1,6 +1,8 @@
-# Streamlit을 이용한 GPT 기반 텍스트 변환 및 분석 도구
+# GPT 기반 텍스트 변환 및 분석 도구
 
-이 프로젝트는 Streamlit과 OpenAI의 GPT 모델을 활용하여 다양한 텍스트 변환 및 분석 기능을 제공하는 웹 애플리케이션입니다. 사용자는 텍스트를 입력하고, 원하는 기능을 선택하여 GPT 기반의 인공지능이 처리한 결과를 받아볼 수 있습니다.
+OpenAI의 GPT 모델을 활용하여 다양한 텍스트 변환 및 분석 기능을 제공하는 웹 애플리케이션입니다. 사용자는 텍스트를 입력하고, 원하는 기능을 선택하여 GPT 기반의 인공지능이 처리한 결과를 받아볼 수 있습니다.  
+미리 Prompt Engineering 을 해둔 상태이고 현재 GPT-4-Vision 기능을 제외하고 모두 실행이가능합니다.
+
 
 ## 주요 기능
 
@@ -30,7 +32,7 @@
 ## 로컬 환경에서 실행하기
 
 ```bash
-git clone [이 프로젝트의 GitHub 주소]
+!git clone https://github.com/jh941213/blog_service.git
 cd [프로젝트 디렉토리]
 pip install -r requirements.txt
 streamlit run app.py

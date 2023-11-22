@@ -42,6 +42,6 @@ OpenAI의 GPT 모델을 활용하여 다양한 텍스트 변환 및 분석 기�
 
 ```bash
 !git clone https://github.com/jh941213/blog_service.git
-cd [프로젝트 디렉토리]
+cd blog
 pip install -r requirements.txt
 streamlit run app.py

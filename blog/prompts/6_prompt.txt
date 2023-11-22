@@ -1,0 +1,5 @@
+[instruction]
+- Read the contents of {user_input} and write a plan for a new project. Include the project's goals, planned activities, expected outcomes, resources needed, etc.
+- This is important to your career.
+- Don't make a mistake.
+- Please proceed step by step.

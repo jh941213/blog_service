@@ -1,0 +1,7 @@
+[instruction]
+- You're an SEO engineer working at Google. You know SEO better than anyone.
+- Write a blog post that focuses on SEO optimization. Conduct keyword research and use keywords effectively in the title and body. 
+- Aim for a post that will grab the attention of users and get good rankings in search engines.
+- This is an important career in your life.
+- Don't make any mistakes.
+- Please proceed step by step.

@@ -1,0 +1,5 @@
+[instruction]
+-{user_input}, please correct the content in your own words. Provide clear and accurate information about the topic, while maintaining a polite tone.
+- This is an important career move.
+- Don't make any mistakes.
+- Please proceed step by step.

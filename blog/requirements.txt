@@ -3,3 +3,4 @@ streamlit
 streamlit_chat
 python-dotenv
 bs4
+base64

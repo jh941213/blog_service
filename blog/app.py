@@ -1,3 +1,11 @@
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.schema.document import Document
+from langchain.chains.mapreduce import MapReduceChain
+from langchain.chains import ReduceDocumentsChain, MapReduceDocumentsChain
+from langchain.chat_models import ChatOpenAI
+from langchain.chains.llm import LLMChain
+from langchain.prompts import PromptTemplate
+from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 import streamlit as st
 from openai import OpenAI
 import requests
@@ -5,15 +13,13 @@ from bs4 import BeautifulSoup
 import os
 from dotenv import load_dotenv
 import base64
+import whisper
+import json
+from pytube import YouTube
+import whisper
 
-#load_dotenv()
+model = whisper.load_model("base")
 
-# 파일의 절대 경로를 구성
-
-
-#openai_api_key = os.getenv("OPENAI_API_KEY")
-
-#client = OpenAI(api_key=openai_api_key)
 logo_url = "image/wiznetlogo.png"
 def read_prompt(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -161,6 +167,43 @@ def crawl_url(url):
         except Exception as e:
             return str(e)
     return "URL이 입력되지 않았습니다."
+
+def download_youtube(url):
+    yt = YouTube(url)
+    yt.streams.filter(only_audio=True).first().download(
+    output_path='.', filename='input.mp3')
+    result = model.transcribe("input.mp3")
+    print(len(result))
+    return result
+
+def text_spliter(result):
+    text_spliter = RecursiveCharacterTextSplitter(chunk_size=1000, overlap_siz=50, length_function=len)
+    docs = [Document(page_content=x) for x in text_spliter.split_text(result["text"])]
+    split_docs = text_splitter.split_documetns(docs)
+
+def langchain_templates(client,split_docs):
+    llm=ChatOpenAI(temperature=0.1, openai_api_key=client.api_key)
+    map_template = read_prompt("prompts/map_template.txt")
+    reduce_template = read_prompt("prompts/reduce_template.txt")
+    map_prompt = PromptTemplate(map_template)
+    reduce_prompt = PromptTemplate(reduce_template)
+    #map reduce chains
+    #1. reduce chain
+    reduce_chain = LLMChain(llm=llm, prompt=reduce_prompt)
+    
+    combine_documents_chain = StuffDocumentsChain(llm_chain=reduce_chain, document_veriable_name="doc_summaries")
+    
+    reduce_documents_chain = ReduceDocumentsChain(combine_documents_chain=combine_documents_chain, collapse_documents_chain=collapse_documents_chain, token_max=4096)
+
+    #2. map chain
+    map_chain = LLMChain(llm=llm, prompt=map_prompt)
+    map_reduce_chain = MapReduceChain(llm_chain=map_chain, reduce_documents_chain=reduce_documents_chain, document_variable_name="docs",return_intermediate_steps=False)
+    
+    sum_result = map_reduce_chain.run(spilit_docs)
+
+    return sum_results
+
+
 st.write("")
 st.image(logo_url)
 st.header("WIZnet ChatGPT 글쓰기 도우미")
@@ -282,4 +325,28 @@ with col2:
             result_containers[9].text_area("변환결과", text, height=600)
         except Exception as e:
             st.error("오류가 발생했습니다. Prompt를 확인해주세요.")
-        
+# #'추후 도입예정
+# #col1, col2 = st.columns(2)
+# #with col1:
+# #    if st.button("youtube 영상 요약하기"):
+#         try:
+#             if url:
+#                 result_url = download_youtube(url)
+#                 split_docs = text_spliter(result_url)
+#                 final_result = langchain_templates(client,split_docs)
+#                 result_containers[10].text_area("변환결과", final_result, height=600)
+#             else:
+#                 st.error("URL이 입력되지 않았습니다.")
+#         except Exception as e:
+#             print(e)
+#             st.error("오류가 발생했습니다. Prompt를 확인해주세요.")
+            
+# with col2:
+#     if st.button("GPT-4-Vision 이미지 해석하기2"):
+#         try:
+#             text = gpt4_vision(client,base64_image)
+#             result_containers[9].text_area("변환결과", text, height=600)
+#         except Exception as e:
+#             print(e)
+#             st.error("오류가 발생했습니다. Prompt를 확인해주세요.")
+# '''

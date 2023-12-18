@@ -5,3 +5,15 @@
 - This is an important career in your life.
 - Don't make any mistakes.
 - Please proceed step by step.
+
+[Output]
+---
+(example) 
+제목 : 
+본문 내용 : 
+서론)
+본론)
+결론)
+---
+
+반드시 example 의 양식대로 출력해주세요.
